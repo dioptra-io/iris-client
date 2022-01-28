@@ -10,7 +10,7 @@ built on top of [Authlib](https://github.com/lepture/authlib) and [httpx](https:
 ## Installation
 
 ```bash
-pip install iris-client
+pip install dioptra-iris-client
 ```
 
 ## Usage
