@@ -1,8 +1,8 @@
 # 🕸️ Iris Python Client
 
 [![Tests](https://img.shields.io/github/workflow/status/dioptra-io/iris-client/Tests?logo=github)](https://github.com/dioptra-io/iris-client/actions/workflows/tests.yml)
-[![Coverage](https://img.shields.io/codecov/c/github/dioptra-io/iris-client?logo=codecov&logoColor=white&token=zjNScyTfz8)](https://app.codecov.io/gh/dioptra-io/iris-client)
-[![PyPI](https://img.shields.io/pypi/v/iris-client?logo=pypi&logoColor=white)](https://pypi.org/project/iris-client/)
+[![Coverage](https://img.shields.io/codecov/c/github/dioptra-io/iris-client?logo=codecov&logoColor=white)](https://app.codecov.io/gh/dioptra-io/iris-client)
+[![PyPI](https://img.shields.io/pypi/v/dioptra-iris-client?logo=pypi&logoColor=white)](https://pypi.org/project/dioptra-iris-client/)
 
 Minimal Python client for the [Iris](https://github.com/dioptra-io/iris) API,
 built on top of [Authlib](https://github.com/lepture/authlib) and [httpx](https://github.com/encode/httpx).
