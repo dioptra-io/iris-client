@@ -13,7 +13,7 @@ PASSWORD_ENV = "IRIS_PASSWORD"
 PAGINATION_DATA_KEY = "results"
 PAGINATION_NEXT_KEY = "next"
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 
 class IrisClient(OAuth2Client):
