@@ -31,5 +31,5 @@ async with AsyncIrisClient("user@example.org", "password") as client:
 
 # Helper function to fetch all the results from a paginated endpoint,
 # available for both clients:
-all_measurements = client.get_all("/measurements/")
+all_measurements = client.all("/measurements/")
 ```

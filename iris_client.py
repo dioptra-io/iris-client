@@ -41,7 +41,7 @@ class IrisClient(OAuth2Client):
             LOGIN_URL, username=self.username, password=self.password
         )
 
-    def get_all(self, url: str, **kwargs) -> Iterator[dict]:
+    def all(self, url: str, **kwargs) -> Iterator[dict]:
         while url:
             data = self.get(url, **kwargs).json()
             url = data[PAGINATION_NEXT_KEY]
@@ -73,7 +73,7 @@ class AsyncIrisClient(AsyncOAuth2Client):
             LOGIN_URL, username=self.username, password=self.password
         )
 
-    async def get_all(self, url: str, **kwargs) -> Iterator[dict]:
+    async def all(self, url: str, **kwargs) -> Iterator[dict]:
         while url:
             data = (await self.get(url, **kwargs)).json()
             url = data[PAGINATION_NEXT_KEY]
