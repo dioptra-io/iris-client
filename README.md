@@ -4,7 +4,7 @@
 [![Coverage](https://img.shields.io/codecov/c/github/dioptra-io/iris-client?logo=codecov&logoColor=white)](https://app.codecov.io/gh/dioptra-io/iris-client)
 [![PyPI](https://img.shields.io/pypi/v/dioptra-iris-client?logo=pypi&logoColor=white)](https://pypi.org/project/dioptra-iris-client/)
 
-Minimal Python client for the [Iris](https://github.com/dioptra-io/iris) API,
+Minimalist Python client for the [Iris](https://github.com/dioptra-io/iris) API,
 built on top of [Authlib](https://github.com/lepture/authlib) and [httpx](https://github.com/encode/httpx).
 
 ## Installation
