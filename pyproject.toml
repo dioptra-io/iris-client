@@ -4,6 +4,8 @@ version = "0.2.0"
 description = "Python client for the Iris API."
 authors = ["Maxime Mouchet <maxime.mouchet@lip6.fr>"]
 license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/dioptra-io/iris-client"
 packages = [{ include = "iris_client.py" }]
 
 [tool.poetry.dependencies]
