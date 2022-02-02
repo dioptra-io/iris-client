@@ -15,6 +15,7 @@ jobs:
           poetry install
           poetry run pytest --cov=iris_client --cov-report=xml
         env:
+          IRIS_BASE_URL: ${{ secrets.IRIS_BASE_URL }}
           IRIS_USERNAME: ${{ secrets.IRIS_USERNAME }}
           IRIS_PASSWORD: ${{ secrets.IRIS_PASSWORD }}
       - uses: codecov/codecov-action@v2

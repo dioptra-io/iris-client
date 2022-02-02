@@ -1,12 +1,16 @@
+import json
+import logging
 import os
-from typing import Iterator, Optional
+from pathlib import Path
+from typing import Iterator, Optional, Tuple
 
 from authlib.integrations.httpx_client import AsyncOAuth2Client, OAuth2Client
 from authlib.oauth2.rfc6749 import OAuth2Token
 
-DEFAULT_BASE_URL = "https://api.iris.dioptra.io"
 LOGIN_URL = "/auth/jwt/login"
+CREDENTIALS_FILE = Path.home() / ".config" / "iris" / "credentials.json"
 
+BASE_URL_ENV = "IRIS_BASE_URL"
 USERNAME_ENV = "IRIS_USERNAME"
 PASSWORD_ENV = "IRIS_PASSWORD"
 
@@ -15,20 +19,53 @@ PAGINATION_NEXT_KEY = "next"
 
 __version__ = "0.2.1"
 
+logger = logging.getLogger("iris-client")
+
+
+def get_credentials(
+    base_url: Optional[str],
+    username: Optional[str],
+    password: Optional[str],
+) -> Tuple[Optional[str], Optional[str], Optional[str]]:
+    if username or password:
+        logger.debug("using credentials from arguments")
+        return base_url, username, password
+    if (
+        BASE_URL_ENV in os.environ
+        or USERNAME_ENV in os.environ
+        or PASSWORD_ENV in os.environ
+    ):
+        logger.debug("using credentials from environment")
+        return (
+            os.environ.get(BASE_URL_ENV),
+            os.environ.get(USERNAME_ENV),
+            os.environ.get(PASSWORD_ENV),
+        )
+    if CREDENTIALS_FILE.exists():
+        logger.debug("using credentials from %s", CREDENTIALS_FILE)
+        credentials = json.loads(CREDENTIALS_FILE.read_text())
+        return (
+            credentials.get("base_url"),
+            credentials.get("username"),
+            credentials.get("password"),
+        )
+    return None, None, None
+
 
 class IrisClient(OAuth2Client):
     def __init__(
         self,
+        base_url: Optional[str] = None,
         username: Optional[str] = None,
         password: Optional[str] = None,
-        base_url: str = DEFAULT_BASE_URL,
         fetch_token: bool = True,
         **kwargs,
     ):
-        super().__init__(base_url=base_url, **kwargs)
-        self.username = username or os.environ.get(USERNAME_ENV)
-        self.password = password or os.environ.get(PASSWORD_ENV)
+        self.base_url, self.username, self.password = get_credentials(
+            base_url, username, password
+        )
         self.fetch_token_ = fetch_token
+        super().__init__(base_url=self.base_url, **kwargs)
 
     def __enter__(self):
         super().__enter__()
@@ -51,16 +88,17 @@ class IrisClient(OAuth2Client):
 class AsyncIrisClient(AsyncOAuth2Client):
     def __init__(
         self,
+        base_url: Optional[str] = None,
         username: Optional[str] = None,
         password: Optional[str] = None,
-        base_url: str = DEFAULT_BASE_URL,
         fetch_token: bool = True,
         **kwargs,
     ):
-        super().__init__(base_url=base_url, **kwargs)
-        self.username = username or os.environ.get(USERNAME_ENV)
-        self.password = password or os.environ.get(PASSWORD_ENV)
+        self.base_url, self.username, self.password = get_credentials(
+            base_url, username, password
+        )
         self.fetch_token_ = fetch_token
+        super().__init__(base_url=self.base_url, **kwargs)
 
     async def __aenter__(self):
         await super().__aenter__()

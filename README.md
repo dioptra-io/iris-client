@@ -18,18 +18,30 @@ pip install dioptra-iris-client
 ```python
 from iris_client import IrisClient, AsyncIrisClient
 
-# NOTE: If the username and/or the password are not specified,
-# they will be retrieved from the `IRIS_USERNAME` and `IRIS_PASSWORD` environment variables.
+base_url = "https://api.iris.dioptra.io"
+username = "user@example.org"
+password = "password"
 
 # Synchronous client
-with IrisClient("user@example.org", "password") as client:
+with IrisClient(base_url, username, password) as client:
     measurements = client.get("/measurements/").json()
 
 # Asynchronous client
-async with AsyncIrisClient("user@example.org", "password") as client:
+async with AsyncIrisClient(base_url, username, password) as client:
     measurements = (await client.get("/measurements/")).json()
 
 # Helper function to fetch all the results from a paginated endpoint,
 # available for both clients:
 all_measurements = client.all("/measurements/")
 ```
+
+
+### Credential provider chain
+
+The Iris client looks for credentials in a way similar to the [AWS SDK](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html):
+
+1. If one of `base_url`, `username` or `password` is specified, these values will be used.
+2. If none of the previous values are specified, and one of `IRIS_BASE_URL`, `IRIS_USERNAME` or `IRIS_PASSWORD`
+   environment variables are present, these values will be used.
+3. If none of the previous values are specified, and the file `~/.config/iris/credentials.json` exists,
+   the fields `base_url`, `username` and `password` will be used.
