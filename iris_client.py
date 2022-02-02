@@ -2,7 +2,7 @@ import json
 import logging
 import os
 from pathlib import Path
-from typing import Iterator, Optional, Tuple
+from typing import AsyncIterator, Iterator, List, Optional, Tuple
 
 from authlib.integrations.httpx_client import AsyncOAuth2Client, OAuth2Client
 from authlib.oauth2.rfc6749 import OAuth2Token
@@ -78,7 +78,10 @@ class IrisClient(OAuth2Client):
             LOGIN_URL, username=self.username, password=self.password
         )
 
-    def all(self, url: str, **kwargs) -> Iterator[dict]:
+    def all(self, url: str, **kwargs) -> List[dict]:
+        return list(self.all_iter(url, **kwargs))
+
+    def all_iter(self, url: str, **kwargs) -> Iterator[dict]:
         while url:
             data = self.get(url, **kwargs).json()
             url = data[PAGINATION_NEXT_KEY]
@@ -111,7 +114,10 @@ class AsyncIrisClient(AsyncOAuth2Client):
             LOGIN_URL, username=self.username, password=self.password
         )
 
-    async def all(self, url: str, **kwargs) -> Iterator[dict]:
+    async def all(self, url: str, **kwargs) -> List[dict]:
+        return [x async for x in self.all_iter(url, **kwargs)]
+
+    async def all_iter(self, url: str, **kwargs) -> AsyncIterator[dict]:
         while url:
             data = (await self.get(url, **kwargs)).json()
             url = data[PAGINATION_NEXT_KEY]
