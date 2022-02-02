@@ -17,7 +17,7 @@ PASSWORD_ENV = "IRIS_PASSWORD"
 PAGINATION_DATA_KEY = "results"
 PAGINATION_NEXT_KEY = "next"
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 logger = logging.getLogger("iris-client")
 
