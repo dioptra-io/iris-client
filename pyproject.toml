@@ -6,7 +6,7 @@ authors = ["Maxime Mouchet <maxime.mouchet@lip6.fr>"]
 license = "MIT"
 readme = "README.md"
 homepage = "https://github.com/dioptra-io/iris-client"
-packages = [{ include = "iris_client.py" }]
+packages = [{ include = "iris_client" }]
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -16,12 +16,27 @@ httpx = "^0.22.0"
 [tool.poetry.dev-dependencies]
 bumpversion = "^0.6.0"
 pre-commit = "^2.17.0"
+mypy = "^0.931"
 pytest = "^6.2.5"
 pytest-asyncio = "^0.17.2"
 pytest-cov = "^3.0.0"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+
+[tool.mypy]
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+implicit_reexport = false
+no_implicit_optional = true
+strict_equality = true
+strict_optional = true
+warn_no_return = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_ignores = true
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

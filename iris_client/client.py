@@ -1,25 +1,20 @@
 import json
-import logging
 import os
-from pathlib import Path
-from typing import AsyncIterator, Iterator, List, Optional, Tuple
+from typing import Any, AsyncIterator, Iterator, List, Optional, Tuple
 
 from authlib.integrations.httpx_client import AsyncOAuth2Client, OAuth2Client
 from authlib.oauth2.rfc6749 import OAuth2Token
 
-LOGIN_URL = "/auth/jwt/login"
-CREDENTIALS_FILE = Path.home() / ".config" / "iris" / "credentials.json"
-
-BASE_URL_ENV = "IRIS_BASE_URL"
-USERNAME_ENV = "IRIS_USERNAME"
-PASSWORD_ENV = "IRIS_PASSWORD"
-
-PAGINATION_DATA_KEY = "results"
-PAGINATION_NEXT_KEY = "next"
-
-__version__ = "0.4.0"
-
-logger = logging.getLogger("iris-client")
+from iris_client.constants import (
+    BASE_URL_ENV,
+    CREDENTIALS_FILE,
+    LOGIN_URL,
+    PAGINATION_DATA_KEY,
+    PAGINATION_NEXT_KEY,
+    PASSWORD_ENV,
+    USERNAME_ENV,
+)
+from iris_client.logger import logger
 
 
 def get_credentials(
@@ -59,29 +54,29 @@ class IrisClient(OAuth2Client):
         username: Optional[str] = None,
         password: Optional[str] = None,
         fetch_token: bool = True,
-        **kwargs,
-    ):
+        **kwargs: Any,
+    ) -> None:
         self.base_url, self.username, self.password = get_credentials(
             base_url, username, password
         )
         self.fetch_token_ = fetch_token
         super().__init__(base_url=self.base_url, **kwargs)
 
-    def __enter__(self):
+    def __enter__(self) -> "IrisClient":
         super().__enter__()
         if self.fetch_token_:
             self.fetch_token()
         return self
 
-    def fetch_token(self, **kwargs) -> OAuth2Token:
+    def fetch_token(self, **kwargs: Any) -> OAuth2Token:
         return super().fetch_token(
             LOGIN_URL, username=self.username, password=self.password
         )
 
-    def all(self, url: str, **kwargs) -> List[dict]:
+    def all(self, url: str, **kwargs: Any) -> List[dict]:
         return list(self.all_iter(url, **kwargs))
 
-    def all_iter(self, url: str, **kwargs) -> Iterator[dict]:
+    def all_iter(self, url: str, **kwargs: Any) -> Iterator[dict]:
         while url:
             data = self.get(url, **kwargs).json()
             url = data[PAGINATION_NEXT_KEY]
@@ -95,29 +90,29 @@ class AsyncIrisClient(AsyncOAuth2Client):
         username: Optional[str] = None,
         password: Optional[str] = None,
         fetch_token: bool = True,
-        **kwargs,
-    ):
+        **kwargs: Any,
+    ) -> None:
         self.base_url, self.username, self.password = get_credentials(
             base_url, username, password
         )
         self.fetch_token_ = fetch_token
         super().__init__(base_url=self.base_url, **kwargs)
 
-    async def __aenter__(self):
+    async def __aenter__(self) -> "AsyncIrisClient":
         await super().__aenter__()
         if self.fetch_token_:
             await self.fetch_token()
         return self
 
-    async def fetch_token(self, **kwargs) -> OAuth2Token:
+    async def fetch_token(self, **kwargs: None) -> OAuth2Token:
         return await super().fetch_token(
             LOGIN_URL, username=self.username, password=self.password
         )
 
-    async def all(self, url: str, **kwargs) -> List[dict]:
+    async def all(self, url: str, **kwargs: None) -> List[dict]:
         return [x async for x in self.all_iter(url, **kwargs)]
 
-    async def all_iter(self, url: str, **kwargs) -> AsyncIterator[dict]:
+    async def all_iter(self, url: str, **kwargs: None) -> AsyncIterator[dict]:
         while url:
             data = (await self.get(url, **kwargs)).json()
             url = data[PAGINATION_NEXT_KEY]
