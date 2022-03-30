@@ -104,15 +104,15 @@ class AsyncIrisClient(AsyncOAuth2Client):
             await self.fetch_token()
         return self
 
-    async def fetch_token(self, **kwargs: None) -> OAuth2Token:
+    async def fetch_token(self, **kwargs: Any) -> OAuth2Token:
         return await super().fetch_token(
             LOGIN_URL, username=self.username, password=self.password
         )
 
-    async def all(self, url: str, **kwargs: None) -> List[dict]:
+    async def all(self, url: str, **kwargs: Any) -> List[dict]:
         return [x async for x in self.all_iter(url, **kwargs)]
 
-    async def all_iter(self, url: str, **kwargs: None) -> AsyncIterator[dict]:
+    async def all_iter(self, url: str, **kwargs: Any) -> AsyncIterator[dict]:
         while url:
             data = (await self.get(url, **kwargs)).json()
             url = data[PAGINATION_NEXT_KEY]
