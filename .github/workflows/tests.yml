@@ -21,7 +21,7 @@ jobs:
           IRIS_BASE_URL: ${{ secrets.IRIS_BASE_URL }}
           IRIS_USERNAME: ${{ secrets.IRIS_USERNAME }}
           IRIS_PASSWORD: ${{ secrets.IRIS_PASSWORD }}
-      - uses: codecov/codecov-action@v2
+      - uses: codecov/codecov-action@v3
 
   pypi:
     needs: [test]
