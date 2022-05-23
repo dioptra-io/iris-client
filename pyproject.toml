@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dioptra-iris-client"
-version = "0.4.3"
+version = "0.4.4"
 description = "Python client for the Iris API."
 authors = ["Maxime Mouchet <maxime.mouchet@lip6.fr>"]
 license = "MIT"
