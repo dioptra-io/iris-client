@@ -54,13 +54,16 @@ class IrisClient(OAuth2Client):
         username: Optional[str] = None,
         password: Optional[str] = None,
         fetch_token: bool = True,
+        follow_redirects: bool = True,
         **kwargs: Any,
     ) -> None:
         self.base_url, self.username, self.password = get_credentials(
             base_url, username, password
         )
         self.fetch_token_ = fetch_token
-        super().__init__(base_url=self.base_url, **kwargs)
+        super().__init__(
+            base_url=self.base_url, follow_redirects=follow_redirects, **kwargs
+        )
 
     def __enter__(self) -> "IrisClient":
         super().__enter__()
@@ -90,13 +93,16 @@ class AsyncIrisClient(AsyncOAuth2Client):
         username: Optional[str] = None,
         password: Optional[str] = None,
         fetch_token: bool = True,
+        follow_redirects: bool = True,
         **kwargs: Any,
     ) -> None:
         self.base_url, self.username, self.password = get_credentials(
             base_url, username, password
         )
         self.fetch_token_ = fetch_token
-        super().__init__(base_url=self.base_url, **kwargs)
+        super().__init__(
+            base_url=self.base_url, follow_redirects=follow_redirects, **kwargs
+        )
 
     async def __aenter__(self) -> "AsyncIrisClient":
         await super().__aenter__()
