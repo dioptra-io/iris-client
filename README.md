@@ -1,6 +1,6 @@
 # 🕸️ Iris Python Client
 
-[![Tests](https://img.shields.io/github/workflow/status/dioptra-io/iris-client/Tests?logo=github)](https://github.com/dioptra-io/iris-client/actions/workflows/tests.yml)
+[![Tests](https://img.shields.io/github/actions/workflow/status/dioptra-io/iris-client/tests.yml?logo=github)](https://github.com/dioptra-io/iris-client/actions/workflows/tests.yml)
 [![Coverage](https://img.shields.io/codecov/c/github/dioptra-io/iris-client?logo=codecov&logoColor=white)](https://app.codecov.io/gh/dioptra-io/iris-client)
 [![PyPI](https://img.shields.io/pypi/v/dioptra-iris-client?logo=pypi&logoColor=white)](https://pypi.org/project/dioptra-iris-client/)
 
