@@ -10,9 +10,9 @@ packages = [{ include = "iris_client" }]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.14"
-Authlib = ">=1.6.5"
+Authlib = ">=1.7.2"
 httpx = "^0.25.0"
-cryptography = ">=44.0.1"
+cryptography = ">=48.0.1"
 
 [tool.poetry.dev-dependencies]
 bumpversion = "^0.6.0"
