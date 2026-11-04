@@ -5,11 +5,14 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12', '3.13']
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: ${{ matrix.python-version }}
       - uses: dioptra-io/setup-poetry-action@v1
       - name: Install package
         run: poetry install
@@ -21,12 +24,13 @@ jobs:
           IRIS_PASSWORD: ${{ secrets.IRIS_PASSWORD }}
         if: github.actor != 'dependabot[bot]'
       - uses: codecov/codecov-action@v3
+        if: matrix.python-version == '3.13' && github.actor != 'dependabot[bot]'
 
   pypi:
     needs: [test]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: dioptra-io/publish-python-action@v1
         with:
           password: ${{ secrets.PYPI_TOKEN }}
