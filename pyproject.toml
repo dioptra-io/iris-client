@@ -14,12 +14,12 @@ Authlib = ">=1.7.2"
 httpx = "^0.25.0"
 cryptography = ">=48.0.1"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 bumpversion = "^0.6.0"
 pre-commit = "^3.5.0"
 mypy = "^1.6.1"
 pytest = "^9.0.3"
-pytest-asyncio = "^0.21.1"
+pytest-asyncio = "^1.4.1.post1"
 pytest-cov = "^4.1.0"
 
 [tool.pytest.ini_options]
