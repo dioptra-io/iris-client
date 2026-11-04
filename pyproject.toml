@@ -9,7 +9,7 @@ homepage = "https://github.com/dioptra-io/iris-client"
 packages = [{ include = "iris_client" }]
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.14"
+python = ">=3.11,<3.14"
 Authlib = ">=1.7.2"
 httpx = "^0.25.0"
 cryptography = ">=48.0.1"
